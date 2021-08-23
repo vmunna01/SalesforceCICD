@@ -1,0 +1,256 @@
+<template>
+    <div class={newEditForm}>
+        <!-- MODAL WITH RECORD-EDIT-FORM -->
+        <c-modal class="intakeRequestModal" header={intakeRequestFormTitle} onclosedialog={handleCancel}>
+            <span>
+                <div class="modal-body">
+                    <!-- RECORD EDIT FORM -->
+                    <template if:true={clearErrors}>
+                        <lightning-record-edit-form object-api-name="Intake_Request__c" record-id={recordId}
+                            onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}
+                            onload={handleFormLoad}>
+                            <!-- SECTION HEADER -->
+                            <c-util-Section-Header header="Related Information"></c-util-Section-Header>
+                            <!-- FIELDS -->
+                            <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields requestName" field-name="Name"
+                                        required={nameRequired} onchange={handleNameChange} value={name}>
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields" field-name="Request_Submitter__c"
+                                        onchange={handleRequestSubmitterChange} value={requestSubmitter}>
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields requestOrigin" field-name="Origin__c"
+                                        onchange={handleOriginChange} value={origin}>
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields" field-name="Account__c"
+                                        onchange={handleAccountChange} value={account}>
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <br />
+                            <!-- SECTION HEADER -->
+                            <c-util-Section-Header header="Detailed Description"></c-util-Section-Header>
+                            <!-- FIELDS -->
+                            <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <lightning-input-field class="mainFormFields requestDescription"
+                                        field-name="Intake_Request_Description__c" required
+                                        onchange={handleDescriptionChange} value={description}>
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <br />
+                            <!-- SECTION HEADER -->
+                            <c-util-Section-Header header="Additional Information"></c-util-Section-Header>
+                            <!-- FIELDS -->
+                            <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields requestImpactedGroups"
+                                        field-name="Impacted_Groups__c" onchange={handleImpactedGroupChange}
+                                        value={impactedGroups}>
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields requestPriorityField"
+                                        field-name="Intake_Request_Priority__c" onchange={handleRequestPriorityChange}
+                                        value={requestPriority}>
+                                    </lightning-input-field>
+                                    <br />
+                                    <lightning-input-field class="mainFormFields priorityRationaleField"
+                                        field-name="Priority_Rationale__c" onchange={handlePriorityRationaleChange}
+                                        required={prioritRationalRequired} value={priorityRationale}>
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field class="mainFormFields requestPath"
+                                        field-name="Request_Path__c" onchange={handleRequestPathChange}
+                                        value={requestPath} required={requestPathRequired}>
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <!-- TARGET COMPLETION DATE REQUIRED FOR UI -->
+                                    <lightning-input-field class="mainFormFields requestTargetDate"
+                                        field-name="Target_Completion_Time_Frame__c" required={requiredDueDate}
+                                        onchange={handleTargetDateChange} value={targetDate}>
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <!-- FINAL ALIGNMENT NOTES ONLY WHEN EDITING THE FORM -->
+                            <template if:true={isEditing}>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <lightning-input-field class="mainFormFields"
+                                            field-name="Final_Alignment_Notes__c" onchange={handleAlignmentNotesChange}
+                                            value={alignmentNotes}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                            </template>
+                            <br />
+                            <!-- SALES/CREDIT INTAKE ITEM TRIAGE FIELDS -->
+                            <template if:true={salesCreditSelected}>
+                                <!-- SECTION HEADER -->
+                                <c-util-Section-Header header="Sales/Credit"></c-util-Section-Header>
+                                <!-- FIELDS -->
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            field-name="Main_Category_Sales_Credit__c" required
+                                            onchange={handleMainCategoryChange} value={mainCategory}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            field-name="Category_Sales_Credit__c" required
+                                            onchange={handleCategoryChange} value={category}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            field-name="Annual_Est_Volume_Sold_to_Freddie__c"
+                                            onchange={handleAnnualEstVolumeChange} value={annualEstVolumeSold}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            field-name="Annual_Est_Loan_Count_Sold_to_Freddie__c"
+                                            onchange={handleAnnualEstLoanChange} value={annualEstLoanCount}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields" field-name="Request_Type__c"
+                                            required onchange={handleRequestTypeChange} value={requestType}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields" field-name="TOB_Number__c"
+                                            onchange={handleTOBNumberChange} required={requiredTOB} value={tobNumber}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            field-name="Credit_Authorization_Memo__c" required
+                                            onchange={handleCreditAuthMemoChange} value={creditAuthMemo}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields" field-name="FMR_Score__c"
+                                            onchange={handleFMRScoreChange} required={requiredFMRScoreCITOutlier}
+                                            value={fmrScore}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields" field-name="CIT_Outlier__c"
+                                            onchange={handleCITOutlierChange} required={requiredFMRScoreCITOutlier}
+                                            value={citOutlier}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields"
+                                            required={requiredFMRScoreCITOutlier} field-name="As_of_Date__c"
+                                            onchange={handleAsOfDateChange} value={asOfDate}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="salesCreditFields" field-name="Additional_Info__c"
+                                            onchange={handleAdditionalInfoChange} value={additionalInfo}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <br />
+                            </template>
+                            <!--DISPLAY FIELDS WHEN TECHNOLOGY IS SELECTED AS IMPACTED GROUP-->
+                            <template if:true={technologySelected}>
+                                <!-- SECTION HEADER -->
+                                <c-util-Section-Header header="Technology"></c-util-Section-Header>
+                                <!-- FIELDS -->
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="mainFormFields productField"
+                                            field-name="Product__c" onchange={handleProductChange}
+                                            required={productRequired} value={product}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="mainFormFields offeringField"
+                                            field-name="Offering__c" onchange={handleOfferingChange} value={offering}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="mainFormFields priorityDriversField"
+                                            field-name="Priority_Drivers__c" onchange={handlePriorityDriversChange}
+                                            required={priorityDriversRequired} value={priorityDrivers}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="mainFormFields impactRolloutField"
+                                            field-name="Impact_Rollout__c" onchange={handleImpactRolloutChange}
+                                            value={impactRollout}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters_small forcePageBlockSectionRow">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field
+                                            class="mainFormFields otherPriorityDriverDescriptionField"
+                                            field-name="Other_Priority_Driver_Description__c"
+                                            onchange={handleOtherPriorityDriverDescriptionChange}
+                                            required={otherPriorityDriverDescriptionRequired}
+                                            value={otherPriorityDriverDescription}>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="mainFormFields technologyAdditionalDetailsField"
+                                            field-name="Technology_Additional_Details__c"
+                                            onchange={handleTechnologyAdditionalDetailsChange}
+                                            value={technologyAdditionalDetails}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <br />
+                            </template>
+                            <!-- SPINNER TO SHOW WHEN LOADING -->
+                            <template if:true={isLoading}>
+                                <div class="mySpinner">
+                                    <lightning-spinner alternative-text="Loading..." variant="brand">
+                                    </lightning-spinner>
+                                </div>
+                            </template>
+                            <!-- FOOTER WITH CANCEL & SAVE BUTTONS -->
+                            <div class="slds-docked-form-footer">
+                                <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleCancel}>
+                                </lightning-button>
+                                &nbsp;&nbsp;
+                                <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Save">
+                                </lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </template>
+                </div>
+            </span>
+        </c-modal>
+    </div>
+</template>

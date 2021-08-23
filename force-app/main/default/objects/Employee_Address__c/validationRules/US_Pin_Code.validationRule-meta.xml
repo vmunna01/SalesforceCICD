@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>US_Pin_Code</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(LEN(Pin_Code__c)=5)</errorConditionFormula>
+    <errorDisplayField>Pin_Code__c</errorDisplayField>
+    <errorMessage>US Zip Code should have 5 char length</errorMessage>
+</ValidationRule>

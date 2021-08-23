@@ -1,0 +1,8 @@
+<apex:page sidebar="false" showHeader="false">
+<br/>
+<h1> <b> Sorry to see you cancel it. Give feedback when you change your mind.</b> </h1>
+<br/>
+<br/>
+<b> Thank You! </b>
+
+</apex:page>

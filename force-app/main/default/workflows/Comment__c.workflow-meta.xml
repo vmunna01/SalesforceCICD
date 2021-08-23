@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Feedback_Form_Reply</fullName>
+        <description>Feedback Form Reply</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Email_Id__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Thank_You_For_Your_Feedback</template>
+    </alerts>
+    <rules>
+        <fullName>On Saving</fullName>
+        <actions>
+            <name>Feedback_Form_Reply</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Comment__c.CreatedDate</field>
+            <operation>equals</operation>
+            <value>TODAY</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

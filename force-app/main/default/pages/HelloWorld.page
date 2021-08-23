@@ -1,0 +1,11 @@
+<apex:page >
+    
+    <apex:image value="{!$Resource.Picture}" width="50%"/>
+    <apex:pageBlock title="Mercedes Benz">
+    </apex:pageBlock>
+    <h1>Hello World!</h1>
+    
+    <p>
+         This is my first Visualforce Page.
+    </p>
+</apex:page>

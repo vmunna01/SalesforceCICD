@@ -1,0 +1,5 @@
+<apex:page label="Thank You" sidebar="false" showHeader="false">
+
+<br/>
+<h1> <b> Thank You for your participation. </b> </h1>
+</apex:page>

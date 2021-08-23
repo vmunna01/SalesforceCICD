@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <interviewLabel>{!$Flow.CurrentRecord}</interviewLabel>
+    <label>Account Creation</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Account_Creation</name>
+        <label>Account Creation</label>
+        <locationX>203</locationX>
+        <locationY>60</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <status>InvalidDraft</status>
+</Flow>

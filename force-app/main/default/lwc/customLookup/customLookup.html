@@ -1,0 +1,65 @@
+<template>
+
+    <!--SEARCH COMPONENT TO SEARCH THE RECORDS-->
+    <template if:false={selectedrecord}>
+        <div class="slds-p-around_x-small">
+            <c-search-component label={label} placeholdertext={placeholdertext} onchange={handleOnchange}>
+            </c-search-component>
+        </div>
+    </template>
+
+    <!--ERRORS (if any)-->
+    <div>
+        <template if:true={error}>
+            <template if:true={error.details}>
+                <template if:true={error.details.body}>
+                    {error.details.body.message}
+                </template>
+            </template>
+        </template>
+    </div>
+
+    <!--RECORD LIST COMPONENT INCLUDING SELECTION HANDLING-->
+    <div>
+        <template if:false={selectedrecord}>
+            <template if:true={records}>
+                        <lightning-card>
+                                
+                                    <p slot="title"> <font size="2">{recentlisttitle}</font></p>
+                    <template for:each={records} for:item="record">
+                        <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname={iconname}
+                            fieldname={searchfield}>
+                        </c-record-list>
+                    </template>
+                </lightning-card>
+            </template>
+        </template>
+        <template if:false={selectedrecord}>
+            <template if:false={records}>
+            </template>
+        </template>
+    </div>
+
+    <!--SELECTED RECORD AND OPTION TO CLEAR THE SELECTION-->
+    <div class="slds-p-around_x-small">
+        <template if:true={selectedrecord}>
+            &nbsp;{label} 
+            <div class="slds-combobox__form-element slds-input-has-icon 
+                            slds-input-has-icon_left-right" role="none">
+                <span class="slds-icon_container
+                                slds-icon-standard-account 
+                                slds-combobox__input-entity-icon" title={label}>
+                    <lightning-icon icon-name={iconname}></lightning-icon>
+                </span>
+                <input class="slds-input slds-combobox__input slds-combobox__input-value" id="input-147"
+                    aria-controls="dropdown-element-147" autocomplete="off" role="textbox" type="text"
+                    placeholder="Select an Option" readonly="" value={selectedrecord.Name} maxlength="255" disabled />
+                <button class="sicon_container slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                    title="Clear selection" onclick={handleRemove}>
+                    <lightning-icon icon-name="utility:close" size="x-small">
+                    </lightning-icon>
+                </button>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Week_should_be_for_the_Same_Year</fullName>
+    <active>false</active>
+    <errorConditionFormula>NOT(CONTAINS(My_Pay__r.Name, TEXT( YEAR( Start_Date__c ))))</errorConditionFormula>
+    <errorDisplayField>Start_Date__c</errorDisplayField>
+    <errorMessage>Year must be same as your pay year</errorMessage>
+</ValidationRule>

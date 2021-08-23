@@ -1,0 +1,9 @@
+.slds-docked-form-footer {
+    position: inherit;
+}
+
+.mySpinner {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+}

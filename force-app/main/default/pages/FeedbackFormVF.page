@@ -1,0 +1,17 @@
+<apex:page Controller="FeedbackFormClass" sidebar="false" showHeader="false">
+  <apex:form >   
+    <apex:pageblock title="Feedback Form">
+      <apex:pageblocksection columns="1">
+          <apex:inputfield value="{!Comment.First_Name__c}" required="true"/>
+          <apex:inputfield value="{!Comment.Last_Name__c}" required="true"/>
+          <apex:inputfield value="{!Comment.Mobile_No__c}" required="true"/>
+          <apex:inputField value="{!Comment.Email_Id__c}" required="true"/>
+          <apex:inputTextarea value="{!Comment.Feedback__c}" required="true"/>
+      </apex:pageblocksection>
+          <apex:pageblockbuttons location="bottom" >
+              <apex:commandbutton value="submit" action="{!saverecords}"/>
+              <apex:commandbutton value="cancel" action="{!cancelrecords}"/>
+          </apex:pageblockbuttons>
+    </apex:pageblock>
+  </apex:form>
+</apex:page>

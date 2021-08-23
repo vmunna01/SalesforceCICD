@@ -1,0 +1,6 @@
+<aura:component>
+	<aura:attribute name="status" type="String" default=""/>
+	<lightning:recordEditForm aura:id="recordViewForm" objectApiName="Contact">
+    	<lightning:inputField value="{!v.status}" fieldName="Status__c" aura:Id="conStatus" />
+    </lightning:recordEditForm>
+</aura:component>

@@ -1,0 +1,67 @@
+<template>
+
+    <!--If Account Selected-->
+    <template if:true={AccountId}>
+
+        <c-custom-lookup 
+            label="Client" 
+            placeholdertext="Search Accounts..." 
+            iconname="standard:account"
+            objectname="Account" 
+            searchfield="Name" 
+            selectedrecord={LWCSelectedAccountRecord}
+            onselectedrec={handleSelectedRecAccount}>
+        </c-custom-lookup>
+
+        <!--If Contact selected after Account selected-->
+        <template if:true={ContactId}>
+            <c-custom-look-up-by-id 
+                label="Client Point of Contact" 
+                placeholdertext="Search Contacts..."
+                iconname="standard:contact" 
+                objectname="Contact" 
+                searchfield="Name"
+                junctionobject="AccountContactRelation"
+                idtosearch="ContactId"
+                lookupfield="AccountId"
+                lookupsearchid={AccountId}
+                selectedrecord={LWCSelectedContactRecord} 
+                onselectedrecbyid={handleSelectedRecContact}>
+            </c-custom-look-up-by-id>
+        </template>
+
+        <!--Example QUERY: Select Id, Name From Contact Where Id IN 
+            (Select ContactId from AccountContactRelation Where AccountId = '0011900000pewZYAAY') 
+            AND Name LIKE '%test%' Limit 5-->
+        <!--If Contact not selected after Account selected-->
+        <template if:false={ContactId}>
+            <c-custom-look-up-by-id 
+                label="Client Point of Contact" 
+                placeholdertext="Search Contacts..."
+                iconname="standard:contact" 
+                objectname="Contact" 
+                searchfield="Name"
+                junctionobject="AccountContactRelation"
+                idtosearch="ContactId"
+                lookupfield="AccountId"
+                lookupsearchid={AccountId}
+                onselectedrecbyid={handleSelectedRecContact}>
+            </c-custom-look-up-by-id>
+        </template>
+
+    </template>
+
+    <!--Example QUERY: Select Id, Name From Account Where Name LIKE '%test%' Limit 5-->
+    <!--If Account not selected-->
+    <template if:false={AccountId}>
+        <c-custom-lookup 
+            label="Client" 
+            placeholdertext="Search Accounts..." 
+            iconname="standard:account"
+            objectname="Account" 
+            searchfield="Name" 
+            onselectedrec={handleSelectedRecAccount}>
+        </c-custom-lookup>
+    </template>
+
+</template>
